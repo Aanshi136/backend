@@ -20,21 +20,6 @@ const ToDoList = () => {
     }
   };
 
-  const handleSearch = async (e) => {
-    const searchValue = e.target.value;
-    setSearchTerm(searchValue); //later show on UI
-
-    try {
-      const response = await api.get("/ToDoList");
-      const filteredTasks = response.data.filter((t) =>
-        t.tasks.toLowerCase().includes(searchValue.toLowerCase())
-      );
-      setTasks(filteredTasks); //UI
-    } catch (error) {
-      console.error("Error searching tasks:", error);
-    }
-  };
-
   const addTask = async () => {
     if (task.trim() === "") return;
     const newTask = { id: Date.now().toString(), tasks: task };
@@ -55,7 +40,6 @@ const ToDoList = () => {
 
   const updateTask = async () => {
     if (task.trim() === "" || editIndex === null) return;
-
     const updatedTask = { ...tasks[editIndex], tasks: task };
 
     try {
@@ -90,7 +74,7 @@ const ToDoList = () => {
           placeholder="Search task..."
           className="flex-1 p-2 border rounded-l"
           value={searchTerm}
-          onChange={handleSearch}
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
 
